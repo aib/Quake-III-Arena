@@ -1,6 +1,6 @@
 # dedicated server build script
 
-Import qw( BASE_CFLAGS BUILD_DIR INSTALL_DIR CC CXX LINK );
+Import qw( BASE_CFLAGS BASE_LDFLAGS BUILD_DIR INSTALL_DIR CC CXX LINK );
 
 $DEDICATED_NAME = 'linuxq3ded';
 
@@ -63,10 +63,11 @@ $env = new cons(
 	ENV => { PATH => $ENV{PATH}, HOME => $ENV{HOME} },
   # FIXME TTimo I'm not sure about what C_ONLY is for
   CFLAGS => $BASE_CFLAGS . '-DC_ONLY',
-  LDFLAGS => '-ldl -lm',
+  LDFLAGS => $BASE_LDFLAGS . '-lm',
   LIBS => ' ' 
   . $BUILD_DIR . '/unix/botlib.a '
   . $BUILD_DIR . '/unix/asmlib.a '
+  . '-ldl '
 );
 
 # list the files for the dedicated server
