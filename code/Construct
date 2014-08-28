@@ -237,7 +237,7 @@ if ($config eq 'debug')
 }
 else
 {
-  $BASE_CFLAGS = $COMMON_CFLAGS . '-DNDEBUG -O6 -mtune=pentiumpro -march=pentium -fomit-frame-pointer -ffast-math -falign-loops=2 -falign-jumps=2 -falign-functions=2 -fno-strict-aliasing -fstrength-reduce ';
+  $BASE_CFLAGS = $COMMON_CFLAGS . '-DNDEBUG -O6 -m32 -mtune=pentiumpro -march=pentium -fomit-frame-pointer -ffast-math -falign-loops=2 -falign-jumps=2 -falign-functions=2 -fno-strict-aliasing -fstrength-reduce ';
 	$BSPC_BASE_CFLAGS = $BASE_CFLAGS . '-DLINUX -DBSPC -Dstricmp=strcasecmp ';
 }
 
@@ -362,12 +362,14 @@ if ($no_core eq 1)
   return;
 }
 
+$BASE_LDFLAGS = '-m32 ';
+
 $INSTALL_DIR = $INSTALL_BASEDIR;
 $BUILD_DIR = $CONFIG_DIR . '/core/dedicated';
 Link $BUILD_DIR => '.';
 $hack = $BASE_CFLAGS; # hit me!
 $BASE_CFLAGS .= '-DDEDICATED ';
-Export qw( BASE_CFLAGS BUILD_DIR INSTALL_DIR CC CXX LINK );
+Export qw( BASE_CFLAGS BASE_LDFLAGS BUILD_DIR INSTALL_DIR CC CXX LINK );
 Build $BUILD_DIR . '/unix/Conscript-dedicated';
 $BASE_CFLAGS = $hack;
 
@@ -375,7 +377,6 @@ $BASE_CFLAGS = $hack;
 
 $TARGETNAME = 'linuxquake3';
 $BUILD_DIR = $CONFIG_DIR . '/core/client';
-$BASE_LDFLAGS = '';
 
 Link $BUILD_DIR => '.';
 Export qw( BASE_CFLAGS BASE_LDFLAGS BUILD_DIR INSTALL_DIR TARGETNAME CC CXX LINK );
@@ -386,7 +387,7 @@ if ($do_smp eq 1)
 	$TARGETNAME = 'linuxquake3-smp';
 	$BUILD_DIR = $CONFIG_DIR . '/core/client-smp';
 	$BASE_CFLAGS .= '-DSMP ';
-	$BASE_LDFLAGS = '-lpthread ';
+	$BASE_LDFLAGS .= '-lpthread ';
 	
   Link $BUILD_DIR => '.';
   Export qw( BASE_CFLAGS BASE_LDFLAGS BUILD_DIR INSTALL_DIR TARGETNAME CC CXX LINK );
