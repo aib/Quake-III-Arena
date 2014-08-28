@@ -1,6 +1,6 @@
 # sdk
 
-Import qw( SDK_NAME Q3_VER CC CXX LINK );
+Import qw( SDK_NAME Q3_VER );
 
 # http://www.devdaily.com/perl/edu/articles/pl010005/pl010005.shtml
 #----------------------------(  promptUser  )-----------------------------#
